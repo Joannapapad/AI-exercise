@@ -9,7 +9,7 @@ Teacher_ID,Teacher_Name,Course_Codes,Max_Hours_Per_Day,Max_Hours_Per_Week
 208,David_Lee,"116,117",2,10
 209,Sophia_Harris,"101,103",4,16
 210,James_Wilson,"106,108,110",3,15
-211,Michael Johnson,101,3,15,7
-207,Anna Clark,102,3,15,7
-209,Sophia Harris,103,4,16,8
-208,David Lee,104,3,10,5
+211,Michael_Johnson,101,3,15
+207,Anna_Clark,102,3,15
+209,Sophia_Harris,103,4,16
+208,David_Lee,104,3,10
