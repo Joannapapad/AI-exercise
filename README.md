@@ -3,10 +3,12 @@ AI Computer Science Class exercise
 Βαση του [προγραμματος γυμνασιου](https://www.alfavita.gr/ekpaideysi/355044_orologio-programma-ton-mathimaton-ton-taxeon-toy-gymnasioy) διαμορφώθηκε το αρχείο lessons.xml
 
 
-Fitness Score:
+##Fitness Score:
 
 1. ότι δεν επιτρέπεται ένας καθηγητής να διδάσκει την ίδια ώρα σε δύο διαφορετικές τάξεις.
-   Υλοποίηση: 
+   
+   Υλοποίηση: Hash Map - κλειδιά teacher_id, timeslot
+   
 Επιπλέον να ικανοποιούνται κατά το δυνατόν οι παρακάτω περιορισμοί:
 1. Να μην υπάρχουν κενά (π.χ. τη Δευτέρα μάθημα 8:00-11:00, κενό
 11:00-13:00, μάθημα 12:00-15:00) στο πρόγραμμα κανενός τμήματος.
