@@ -1,83 +1,5 @@
-import java.util.Random;
-import ArrayList;
 import java.util.Arrays;
-
-    // [Course Code, Grade, Teacher ID, Time Slot]
-    public class Gene{
-        private int coursecode;
-        private char grade;
-        private int teacher_id;
-        private String timeslot;
-
-        public Gene(int coursecode, char grade, int teacher_id, String timeslot){
-            this.coursecode = coursecode;
-            this.grade = grade;
-            this.teacher_id = teacher_id;
-            setTimeslot(timeslot);
-        }
-
-        public String getCourseCode() { 
-            return courseCode; 
-            }
-
-        public void setCourseCode(String coursecode) { 
-            this.coursecode = coursecode; 
-            }
-
-        public int getGrade() { 
-            return grade; 
-            }
-
-        public void setGrade(int grade) { 
-            this.grade = grade; 
-            }
-
-        public int getTeacherId() { 
-            return teacher_id; 
-            }
-
-        public void setTeacherId(int teacher_id) { 
-            this.teacher_id = teacher_id; 
-            }
-
-        public String getTimeslot() { 
-            return timeslot; 
-            }
-
-        public void setTimeslot(String timeslot) { 
-
-            String[] validDays = {"Monday", "Tuesday", "Wednesday", "Thurday", "Friday"};
-            boolean isValide = false;
-
-
-            for (String day : validDays){
-                if (timeslot.startsWith(day) && timeslot.length() == (day.length() + 2)){
-                    try {
-                        int period = Integer.parseInt(timeslot.substring(day.length()));
-                        if (period >= 1 && period <= 7){
-                            isValid = true;
-                            break;
-                        }
-                    } catch (NumberFormatException e) {
-                        // Invalid number in timeslot
-                    }
-                    }
-                }
-
-            if (!isValid) {
-                throw new IllegalArgumentException("Invalid timeslot: " + timeslot + ". It must be in the format Day-Period (e.g., Monday-1, Tuesday-3).");
-            }
-            
-            this.timeslot = timeslot; // Assign the valid timeslot
-        }
-
-
-        @Override
-        public String toString() {
-            return "Course Code: " + coursecode + ", Grade: " + grade + ", Teacher ID: " + teacher_id + ", Time Slot: " + timeslot;
-        }
-    }
-
+import java.util.Random;
 
 //Unprocessed Lines of code 
 public class Chromosome implements Comparable<Chromosome>
@@ -86,27 +8,24 @@ public class Chromosome implements Comparable<Chromosome>
     //Each position shows the vertical position of a queen in the corresponding column
     private Gene[] genes;
 
-    public Chromosome(int numGenes) {
-        genes = new Gene[numGenes];  // Initialize the array
-    }
-    //Integer that holds the fitness score of the chromosome
-    private int fitness;
+    public Chromosome(FileExtraction fileExtraction) {
+        this.genes = new Gene[900]; // Initialize the array to hold the same number of genes
 
-    //Constructs a randomly created chromosome
-    Chromosome()
-    {
-        Random r = new Random();
-        for(int i = 0; i < this.genes.length; i++)
-        {
-            this.genes[i] = r.nextInt(8);
+        // Populate each gene in the genes array with a random gene
+        for (int i = 0; i < this.genes.length; i++) {
+            // Generate a random gene
+            Gene randomGene = new Gene(0, 'A', 0, "Monday-1"); // Temporary Gene instance to call method
+            this.genes[i] = randomGene.RandomGeneGenerator();
         }
+
+        // Calculate the initial fitness of the chromosome
         this.calculateFitness();
     }
 
     //Constructs a copy of a chromosome
-    Chromosome(int[] genes)
+    Chromosome(Gene[] genes)
     {
-        this.genes = new int[8];
+        this.genes = new Gene[genes.length]; // Initialize the array to hold the same number of genes
         for(int i = 0; i < this.genes.length; i++)
         {
             this.genes[i] = genes[i];
@@ -193,4 +112,5 @@ public class Chromosome implements Comparable<Chromosome>
     {
         return this.fitness - x.fitness;
     }
+    
 }
