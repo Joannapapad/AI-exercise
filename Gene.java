@@ -1,117 +1,130 @@
-import java.io.*;
+import java.util.Random;
+ 
+  // [Course Code, Grade, Teacher ID, Time Slot]
+    public class Gene {
+        FileExtraction fileExtraction;
+        private int coursecode;
+        private char grade;
+        private int teacher_id;
+        private String timeslot;
 
-<<<<<<< HEAD
-public class FileExtraction{
+        public Gene(int coursecode, char grade, int teacher_id, String timeslot){
 
-    public int ReadLines(String filePath) throws IOException{
-=======
-public class FileExtraction {
-    private Lesson[] lessons;  // Store lessons in a class-level variable
-    private Teacher[] teachers; // Store teachers in a class-level variable
-
-    // Method to read the number of lines in the file
-    public int ReadLines(String filePath) throws IOException {
->>>>>>> 3c1b638 (genes)
-        String line = "";
-        File file = new File(filePath);
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        int count = 0;
-<<<<<<< HEAD
-        int i = 0;
-=======
->>>>>>> 3c1b638 (genes)
-        while ((line = br.readLine()) != null) {
-            count++;
-        }
-        br.close();
-        return count;
-    }
-
-<<<<<<< HEAD
-    public void ReadLessons (String filePath ) throws IOException {
-        String line = "";
-        File file = new File(filePath);
-        int i = 0;
-        int count = ReadLines(filePath);
-        BufferedReader br2 = new BufferedReader(new FileReader(file));
-        Lesson []lesson = new Lesson[count];
-        while ((line = br2.readLine()) != null){
-            String []temp = line.split("\\s+");
-            Lesson t = new Lesson(Integer.parseInt(temp[0]), temp[1], temp[2].charAt(0), Integer.parseInt(temp[3]));
-            lesson[i] = t;
+            this.coursecode = coursecode;
+            this.grade = grade;
+            this.teacher_id = teacher_id;
+            setTimeslot(timeslot);
         }
 
-    }
 
-    public void ReadTeachers (String filePath) throws IOException {
-        String line = "";
-        File file = new File(filePath);
-        int count = ReadLines(filePath);
-        int i = 0;
-        BufferedReader br2 = new BufferedReader(new FileReader(file));
-        Teacher [] teacher= new Teacher[count];
-        while ((line = br2.readLine()) != null){
-            String []temp = line.split("\\s+");
-                Teacher t = new Teacher(Integer.parseInt(temp[0]), temp[1], temp[2], Integer.parseInt(temp[3]), Integer.parseInt(temp[4]));
-                teacher[i] = t;
-                i++;
+        public Gene RandomGeneGenerator() { 
+            
+            Gene gene = new Gene(getRandCourseCode(), getRandGrade(), getRandTeacherId(), getRandTimeslot());
+            return gene;
+        }
+
+        public int getCourseCode() { 
+            return coursecode; 
+        }
+
+        public int getRandCourseCode() { 
+            Lesson l[] = fileExtraction.getLessons();
+            Random r = new Random();
+            int rand = r.nextInt(l.length);
+            
+            int rand_course_code = l[rand].getCourseCode();
+            return rand_course_code; 
+        }
+
+        public void setCourseCode(int coursecode) { 
+            this.coursecode = coursecode; 
             }
 
+        public char getGrade() { 
+            return grade; 
+            }
+
+        public char getRandGrade() { 
+            Random r = new Random();
+            int rand = r.nextInt(3);
+            char grade = 0;
+            if (rand == 1) grade = 'a'; 
+            if (rand == 2) grade = 'b'; 
+            if (rand == 3) grade = 'c'; 
+
+            return grade; 
+            }
+
+        public void setGrade(char grade) { 
+            this.grade = grade; 
+            }
+
+        public int getTeacherId() { 
+            return teacher_id; 
+            }
+
+        public void setTeacherId(int teacher_id) { 
+            this.teacher_id = teacher_id; 
         }
 
-    }
+        public int getRandTeacherId() { 
+            Teacher t[] = fileExtraction.getTeachers();
+            Random r = new Random();
+            int rand = r.nextInt(t.length);
+            
+            int rand_teacher_id = t[rand].getTeacherId();
+            return rand_teacher_id; 
+        }
+
+        public String getTimeslot() { 
+            return timeslot; 
+            }
 
 
+        public void setTimeslot(String timeslot) { 
+
+            String[] validDays = {"Monday", "Tuesday", "Wednesday", "Thurday", "Friday"};
+            boolean isValid = false;
 
 
+            for (String day : validDays){
+                if (timeslot.startsWith(day) && timeslot.length() == (day.length() + 2)){
+                    try {
+                        int period = Integer.parseInt(timeslot.substring(day.length()));
+                        if (period >= 1 && period <= 7){
+                            isValid = true;
+                            break;
+                        }
+                    } catch (NumberFormatException e) {
+                        // Invalid number in timeslot
+                    }
+                    }
+                }
 
+            if (!isValid) {
+                throw new IllegalArgumentException("Invalid timeslot: " + timeslot + ". It must be in the format Day-Period (e.g., Monday-1, Tuesday-3).");
+            }
+            
+            this.timeslot = timeslot; // Assign the valid timeslot
+        }
 
+        public String getRandTimeslot() { 
 
+            Random day = new Random();
+            Random hour = new Random();
 
+            String[] validDays = {"Monday", "Tuesday", "Wednesday", "Thurday", "Friday"};
 
-=======
-    // Method to read lessons from the file and store them in the lessons array
-    public void ReadLessons(String filePath) throws IOException {
-        String line = "";
-        File file = new File(filePath);
-        int count = ReadLines(filePath);  // Get the number of lessons
-        lessons = new Lesson[count];  // Initialize the lessons array
-        BufferedReader br2 = new BufferedReader(new FileReader(file));
-        
-        int i = 0;
-        while ((line = br2.readLine()) != null) {
-            String[] temp = line.split("\\s+");
-            Lesson t = new Lesson(Integer.parseInt(temp[0]), temp[1], temp[2].charAt(0), Integer.parseInt(temp[3]));
-            lessons[i] = t;
-            i++;
+            int rand_day = day.nextInt(validDays.length);
+
+            int rand_hour = hour.nextInt(7);
+            timeslot = validDays[rand_day] + "-" + rand_hour; 
+            
+            return timeslot; // Assign the valid timeslot
+        }
+
+        @Override
+        public String toString() {
+            return "Course Code: " + coursecode + ", Grade: " + grade + ", Teacher ID: " + teacher_id + ", Time Slot: " + timeslot;
         }
     }
-
-    // Method to read teachers from the file and store them in the teachers array
-    public void ReadTeachers(String filePath) throws IOException {
-        String line = "";
-        File file = new File(filePath);
-        int count = ReadLines(filePath);  // Get the number of teachers
-        teachers = new Teacher[count];  // Initialize the teachers array
-        BufferedReader br2 = new BufferedReader(new FileReader(file));
-        
-        int i = 0;
-        while ((line = br2.readLine()) != null) {
-            String[] temp = line.split("\\s+");
-            Teacher t = new Teacher(Integer.parseInt(temp[0]), temp[1], temp[2], Integer.parseInt(temp[3]), Integer.parseInt(temp[4]));
-            teachers[i] = t;
-            i++;
-        }
-    }
-
-    // Getter for the lessons array
-    public Lesson[] getLessons() {
-        return lessons;
-    }
-
-    // Getter for the teachers array
-    public Teacher[] getTeachers() {
-        return teachers;
-    }
-}
->>>>>>> 3c1b638 (genes)
